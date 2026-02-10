@@ -1,0 +1,17 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: V1
+      author: gulay
+      changes:
+        - sqlFile:
+            path: changesets/V1__init.sql
+            relativeToChangelogFile: true
+
+  - changeSet:
+      id: V2
+      author: gulay
+      changes:
+        - sqlFile:
+            path: changesets/V2__insert_data.sql
+            relativeToChangelogFile: true
