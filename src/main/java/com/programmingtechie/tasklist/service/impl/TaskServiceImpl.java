@@ -7,6 +7,10 @@ import com.programmingtechie.tasklist.repository.TaskRepository;
 import com.programmingtechie.tasklist.service.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.beans.Transient;
@@ -17,6 +21,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     @Override
     //@Transactional
+    @Cacheable(value = "TaskService::getById",key="#task.id")
     public Task create(Task task,Long userId) {
         task.setStatus(Status.TODO);
         taskRepository.create(task);
@@ -26,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
+    @Cacheable(value = "TaskService::getById",key = "#id")
     public Task getById(Long id) {
         return taskRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Task not found"));
     }
@@ -38,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
+    @CachePut(value = "TaskService::getById",key = "#task.id")
     public Task update(Task task) {
         if(task.getStatus() == null){
          task.setStatus(Status.TODO);
@@ -48,6 +55,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "TaskService::getById",key = "#id")
     public void delete(Long id) {
     taskRepository.delete(id);
     }

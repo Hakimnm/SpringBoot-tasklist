@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -44,14 +45,11 @@ public String createAccessToken(Long userId, String username, Set<Role> roles) {
     claims.put("id", userId);
     claims.put("roles", resolveRoles(roles));
 
-   Date now = new Date();
-   Date validity=new Date(now.getTime()+jwtPropeties.getAccess());
-
+  Instant validity = Instant.now().plus(jwtPropeties.getAccess(), ChronoUnit.HOURS);
 
    return Jwts.builder()
            .setClaims(claims)
-           .setIssuedAt(now)
-           .setExpiration(validity)
+           .setExpiration(Date.from(validity))
            .signWith(key)
            .compact();
 }
@@ -63,12 +61,11 @@ public String createAccessToken(Long userId, String username, Set<Role> roles) {
     public String createRefreshToken(Long userId, String username) {
     Claims claims = Jwts.claims().setSubject(username);
     claims.put("id", userId);
-    Date now = new Date();
-    Date validity=new Date(now.getTime()+jwtPropeties.getRefresh());
+    Instant validity = Instant.now().plus(jwtPropeties.getRefresh(), ChronoUnit.DAYS);
+
     return Jwts.builder()
             .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(validity)
+            .setExpiration(Date.from(validity))
             .signWith(key)
             .compact();
     }
