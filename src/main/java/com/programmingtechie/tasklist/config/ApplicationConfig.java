@@ -1,7 +1,9 @@
 package com.programmingtechie.tasklist.config;
 
+import com.programmingtechie.tasklist.service.props.MinioProperties;
 import com.programmingtechie.tasklist.web.security.JwtTokenFilter;
 import com.programmingtechie.tasklist.web.security.JwtTokenProvedir;
+import io.minio.MinioClient;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -34,6 +36,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ApplicationConfig {
     private final ApplicationContext context;
     private  final JwtTokenProvedir jwtTokenProvedir;
+    private final MinioProperties minioProperties;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,6 +55,15 @@ public class ApplicationConfig {
         expressionHandler.setApplicationContext(context);
         return expressionHandler;
     }
+
+    @Bean
+    public MinioClient minioClient() {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
 
 
     @Bean

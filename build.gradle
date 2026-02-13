@@ -18,8 +18,9 @@ ext {
     hibernateValidatorVersion='9.1.0.Final'
     jakartavalidation='4.0.0-M1'
     jjwtversion='0.11.5'
-    mybatisversion='4.0.1'
     springdocversion='3.0.1'
+    preliquibaseversion='2.0.0'
+    minioversion='8.6.0'
 }
 configurations {
     compileOnly {
@@ -51,10 +52,11 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:${jjwtversion}")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:${jjwtversion}")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:${jjwtversion}")
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisversion}")
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocversion}")
-
+    implementation("net.lbruun.springboot:preliquibase-spring-boot-starter:${preliquibaseversion}")
+    implementation("io.minio:minio:${minioversion}")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.named('test') {

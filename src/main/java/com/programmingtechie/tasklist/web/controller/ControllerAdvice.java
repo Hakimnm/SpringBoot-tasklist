@@ -1,6 +1,7 @@
 package com.programmingtechie.tasklist.web.controller;
 
 import com.programmingtechie.tasklist.domain.exception.ExceptionBody;
+import com.programmingtechie.tasklist.domain.exception.ImageUploadException;
 import com.programmingtechie.tasklist.domain.exception.ResourceNotFoundException;
 import com.programmingtechie.tasklist.domain.exception.ResurceMappingException;
 import jakarta.validation.ConstraintViolationException;
@@ -11,11 +12,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ControllerAdvice {
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -65,16 +66,19 @@ public class ControllerAdvice {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleAuthentication(AuthenticationException e){
-        e.printStackTrace();
         return new ExceptionBody("Authentication failed");
     }
 
+@ExceptionHandler(ImageUploadException.class)
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public ExceptionBody handleImageUpload(ImageUploadException e){
+        return new ExceptionBody(e.getMessage());
+}
 
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e) {
-         e.printStackTrace();
         return new ExceptionBody("Internal error");
     }
 }

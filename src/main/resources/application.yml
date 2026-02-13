@@ -34,12 +34,15 @@ spring:
 server:
   port: 8090
 
-mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-
 springdoc:
   override-with-generic-response: false
 
 logging:
   level:
     liquibase: INFO
+
+minio:
+  bucket: ${MINIO_BUCKET}
+  url: ${MINIO_URL}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}

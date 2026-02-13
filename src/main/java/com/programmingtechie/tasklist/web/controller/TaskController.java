@@ -1,9 +1,13 @@
 package com.programmingtechie.tasklist.web.controller;
 
 import com.programmingtechie.tasklist.domain.task.Task;
+import com.programmingtechie.tasklist.domain.task.TaskImage;
+import com.programmingtechie.tasklist.service.ImageService;
 import com.programmingtechie.tasklist.service.TaskService;
+import com.programmingtechie.tasklist.web.dto.mappers.TaskImageMapper;
 import com.programmingtechie.tasklist.web.dto.mappers.TaskMapper;
 import com.programmingtechie.tasklist.web.dto.task.TaskDto;
+import com.programmingtechie.tasklist.web.dto.task.TaskImageDto;
 import com.programmingtechie.tasklist.web.dto.validation.OnUpdate;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
     private final TaskService taskService;
     private final TaskMapper taskMapper;
+    private final TaskImageMapper taskImageMapper;
 
     @Operation(summary = "task find get by id")
     @GetMapping("/{id}")
@@ -47,4 +52,18 @@ public class TaskController {
 
     }
 
-}
+        @PostMapping("/id/image")
+        @Operation(summary = "upload image to task")
+        @PreAuthorize("canAccessTask(#id)")
+        public void uploadImage(@PathVariable Long id,
+            @Validated @ModelAttribute TaskImageDto imageDto){
+
+            TaskImage image=taskImageMapper.toEntity(imageDto);
+            taskService.taskImageUpload(id,image);
+
+        }
+
+
+    }
+
+

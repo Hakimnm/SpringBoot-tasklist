@@ -1,33 +1,126 @@
 create table if not exists tasklist.users
 (
-    id       bigserial primary key,
-    name     varchar(255) not null,
-    username varchar(255) not null unique,
-    password varchar(255) not null
+    id
+    bigserial
+    primary
+    key,
+    name
+    varchar
+(
+    255
+) not null,
+    username varchar
+(
+    255
+) not null unique,
+    password varchar
+(
+    255
+) not null
 
     );
 
 create table if not exists tasklist.tasks
 (
-    id              bigserial primary key,
-    title           varchar(255) not null,
-    description     varchar(255) null,
-    status          varchar(255) not null,
-    expiration_date timestamp    null
+    id
+    bigserial
+    primary
+    key,
+    title
+    varchar
+(
+    255
+) not null,
+    description varchar
+(
+    255
+) null,
+    status varchar
+(
+    255
+) not null,
+    expiration_date timestamp null
 
     );
 
-create table if not exists tasklist.users_task(
-                                                  user_id bigint not null ,
-                                                  task_id bigint not null ,
-                                                  primary key (user_id,task_id),
-    constraint fk_users_tasks_users foreign key (user_id) references tasklist.users(id) on delete cascade on update no action,
-    constraint fk_users_tasks_tasks foreign key (task_id) references tasklist.tasks(id) on delete cascade on UPDATE no action
+create table if not exists tasklist.users_task
+(
+    user_id
+    bigint
+    not
+    null,
+    task_id
+    bigint
+    not
+    null,
+    primary
+    key
+(
+    user_id,
+    task_id
+),
+    constraint fk_users_tasks_users foreign key
+(
+    user_id
+) references tasklist.users
+(
+    id
+) on delete cascade
+  on update no action,
+    constraint fk_users_tasks_tasks foreign key
+(
+    task_id
+) references tasklist.tasks
+(
+    id
+)
+  on delete cascade
+  on UPDATE no action
     );
 
-create table if not exists tasklist.users_roles(
-                                                   user_id bigint not null ,
-                                                   role varchar(255) not null ,
-    primary key (user_id,role),
-    constraint fk_users_roles_users foreign key (user_id) references tasklist.users(id) on delete cascade on update no action
+create table if not exists tasklist.users_roles
+(
+    user_id
+    bigint
+    not
+    null,
+    role
+    varchar
+(
+    255
+) not null ,
+    primary key
+(
+    user_id,
+    role
+),
+    constraint fk_users_roles_users foreign key
+(
+    user_id
+) references tasklist.users
+(
+    id
+) on delete cascade
+  on update no action
+    );
+
+create table if not exists tasklist.tasks_images
+(
+    task_id
+    bigint
+    not
+    null,
+    image
+    varchar
+(
+    255
+) not null ,
+    constraint fk_tasks_roles_tasks foreign key
+(
+    task_id
+) references tasklist.tasks
+(
+    id
+) on delete cascade
+  on update no action
     );

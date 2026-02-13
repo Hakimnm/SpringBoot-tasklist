@@ -5,6 +5,9 @@ volumes:
     driver: local
   db-data:
     driver: local
+  minio-data:
+    driver: local
+
 
 services:
   app:
@@ -13,13 +16,15 @@ services:
     container_name: tasklist
     depends_on:
       - db
+      - minio
+      - redis
     env_file:
       - .env
     ports:
       - "8090:8090"
 
   db:
-    image: postgres:15.1-alpine
+    image: postgres:15-alpine
     container_name: postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USERNAME}
@@ -39,3 +44,16 @@ services:
     # command: redis-server --save 20 1 --loglevel warning --requirepass d2RxZHFld2RmcWVmZHFmZQ==
     volumes:
       - cache:/data
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+      - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
+    ports:
+      - "9000:9000"   # S3 API port
+      - "9090:9090"   # Web Console port
+    command: server /data --console-address ":9090"
+    volumes:
+      - minio-data:/data
