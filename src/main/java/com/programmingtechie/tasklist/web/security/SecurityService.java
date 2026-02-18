@@ -24,7 +24,7 @@ public class SecurityService {
     public boolean canAccessTask(Long taskId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
-        var d= userService.isTaskOwner( user.getId(),taskId);
+        var d = userService.isTaskOwner(user.getId(), taskId);
         return d;
     }
 }

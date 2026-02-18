@@ -21,7 +21,7 @@ public class CustomMethodSecurityExpessionRoot extends SecurityExpressionRoot im
     private Object returnObject;
     private Object target;
     private HttpServletRequest request;
-    private  UserService userService;
+    private UserService userService;
 
     public CustomMethodSecurityExpessionRoot(@Nullable Authentication authentication) {
         super(authentication);
@@ -29,7 +29,7 @@ public class CustomMethodSecurityExpessionRoot extends SecurityExpressionRoot im
 
 
     @Override
-    public  Object getThis() {
+    public Object getThis() {
         return target;
     }
 
@@ -45,7 +45,7 @@ public class CustomMethodSecurityExpessionRoot extends SecurityExpressionRoot im
     private boolean hasAnyRole(Authentication authentication, Role... roles) {
         for (Role role : roles) {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
-            if(authentication.getAuthorities().contains(authority)) {
+            if (authentication.getAuthorities().contains(authority)) {
                 return true;
             }
         }
@@ -56,7 +56,7 @@ public class CustomMethodSecurityExpessionRoot extends SecurityExpressionRoot im
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
         Long userId = user.getId();
-        return userService.isTaskOwner( userId,taskId);
+        return userService.isTaskOwner(userId, taskId);
 
 
     }

@@ -15,12 +15,12 @@ java {
 }
 ext {
     mapstructVersion = '1.6.3'
-    hibernateValidatorVersion='9.1.0.Final'
-    jakartavalidation='4.0.0-M1'
-    jjwtversion='0.11.5'
-    springdocversion='3.0.1'
-    preliquibaseversion='2.0.0'
-    minioversion='8.6.0'
+    hibernateValidatorVersion = '9.1.0.Final'
+    jakartavalidation = '4.0.0-M1'
+    jjwtversion = '0.11.5'
+    springdocversion = '3.0.1'
+    preliquibaseversion = '2.0.0'
+    minioversion = '8.6.0'
 }
 configurations {
     compileOnly {
