@@ -17,15 +17,16 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final JwtTokenProvedir jwtTokenProvedir;
+
     @Override
     public JwtResponse login(JwtRequest loginRequest) {
-JwtResponse jwtResponse = new JwtResponse();
-authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        User user=userService.getByUsername(loginRequest.getUsername());
+        JwtResponse jwtResponse = new JwtResponse();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        User user = userService.getByUsername(loginRequest.getUsername());
         jwtResponse.setUsername(user.getUsername());
         jwtResponse.setId(user.getId());
-        jwtResponse.setAccessToken(jwtTokenProvedir.createAccessToken(user.getId(),user.getUsername(),user.getRoles()));
-        jwtResponse.setRefreshToken(jwtTokenProvedir.createRefreshToken(user.getId(),user.getUsername()));
+        jwtResponse.setAccessToken(jwtTokenProvedir.createAccessToken(user.getId(), user.getUsername(), user.getRoles()));
+        jwtResponse.setRefreshToken(jwtTokenProvedir.createRefreshToken(user.getId(), user.getUsername()));
         return jwtResponse;
     }
 

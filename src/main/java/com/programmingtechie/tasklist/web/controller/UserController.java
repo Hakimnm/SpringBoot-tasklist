@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "User Controller",description = "User API")
+@Tag(name = "User Controller", description = "User API")
 public class UserController {
     private final UserService userService;
     private final TaskService taskService;
@@ -65,11 +65,11 @@ public class UserController {
     @Operation(summary = "create task")
     @PostMapping("/{id}/tasks")
     @PreAuthorize("@customSecurtiyExpression.canAccessUser(#id)")
-    public  TaskDto createTask(@PathVariable Long id, @Validated(OnCreate.class)
+    public TaskDto createTask(@PathVariable Long id, @Validated(OnCreate.class)
     @RequestBody TaskDto taskDto) {
         Task task = taskMapper.toEntity(taskDto);
-        Task createdTask = taskService.create(task,id);
-return taskMapper.toDto(createdTask);
+        Task createdTask = taskService.create(task, id);
+        return taskMapper.toDto(createdTask);
 
     }
 }

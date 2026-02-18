@@ -35,7 +35,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class ApplicationConfig {
     private final ApplicationContext context;
-    private  final JwtTokenProvedir jwtTokenProvedir;
+    private final JwtTokenProvedir jwtTokenProvedir;
     private final MinioProperties minioProperties;
 
     @Bean
@@ -65,16 +65,15 @@ public class ApplicationConfig {
     }
 
 
-
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().addSecurityItem(
-                new SecurityRequirement().addList("bearerAuth"))
+                        new SecurityRequirement().addList("bearerAuth"))
                 .components(
                         new Components().
                                 addSecuritySchemes("bearerAuth",
                                         new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
+                                                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info().title("Task list API")
                         .description("Demo spring boot application")
                         .version("1.0"));
@@ -83,11 +82,12 @@ public class ApplicationConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)  {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> {})
+                .cors(cors -> {
+                })
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -107,7 +107,7 @@ public class ApplicationConfig {
                         .anyRequest().authenticated()
                 );
 
-          http.addFilterBefore(new JwtTokenFilter(jwtTokenProvedir), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtTokenFilter(jwtTokenProvedir), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

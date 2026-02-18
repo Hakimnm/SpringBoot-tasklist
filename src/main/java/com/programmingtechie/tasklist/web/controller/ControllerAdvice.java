@@ -65,15 +65,15 @@ public class ControllerAdvice {
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleAuthentication(AuthenticationException e){
+    public ExceptionBody handleAuthentication(AuthenticationException e) {
         return new ExceptionBody("Authentication failed");
     }
 
-@ExceptionHandler(ImageUploadException.class)
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public ExceptionBody handleImageUpload(ImageUploadException e){
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleImageUpload(ImageUploadException e) {
         return new ExceptionBody(e.getMessage());
-}
+    }
 
 
     @ExceptionHandler(Exception.class)
